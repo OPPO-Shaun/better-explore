@@ -24,50 +24,51 @@ REPORT_DIR="${REPO_ROOT}/docs/reports/${TOPIC}"
 REPORT_FILE="${REPORT_DIR}/${SOLUTION}.md"
 
 # ---------------------------------------------------------------------------
-# Helpers
+# 工具函数
 # ---------------------------------------------------------------------------
 usage() {
-  echo "Usage: $0 <solution-name> [topic]"
+  echo "用法：$0 <方案名称> [报告主题]"
   echo ""
-  echo "  solution-name  Name of the open-source solution to evaluate"
-  echo "  topic          Research topic folder (default: general)"
+  echo "  方案名称    待评估的开源方案名称"
+  echo "  报告主题    报告归档目录（默认：general）"
   exit 1
 }
 
 log()  { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
-err()  { echo "[ERROR] $*" >&2; exit 1; }
+err()  { echo "[错误] $*" >&2; exit 1; }
 
 # ---------------------------------------------------------------------------
-# Validate input
+# 参数校验
 # ---------------------------------------------------------------------------
 [[ -z "${SOLUTION}" ]] && usage
 
 # ---------------------------------------------------------------------------
-# Create report scaffold if it doesn't already exist
+# 如果报告不存在，则从模板创建报告骨架
 # ---------------------------------------------------------------------------
 if [[ ! -f "${REPORT_FILE}" ]]; then
   mkdir -p "${REPORT_DIR}"
   cp "${TEMPLATE}" "${REPORT_FILE}"
-  # Replace placeholder {方案名称} with the actual solution name
+  # 将模板占位符替换为实际方案名称和日期
   perl -i -pe "s/\{方案名称\}/${SOLUTION}/g" "${REPORT_FILE}"
   perl -i -pe "s/\{YYYY-MM-DD\}/$(date '+%Y-%m-%d')/g" "${REPORT_FILE}"
-  log "Report scaffold created: ${REPORT_FILE}"
+  log "报告骨架已创建：${REPORT_FILE}"
 else
-  log "Report already exists, skipping scaffold: ${REPORT_FILE}"
+  log "报告已存在，跳过创建：${REPORT_FILE}"
 fi
 
 # ---------------------------------------------------------------------------
-# Run solution-specific test script (if available)
+# 执行方案专属测试脚本（如果存在）
 # ---------------------------------------------------------------------------
 SOLUTION_SCRIPT="${SCRIPT_DIR}/${SOLUTION}.sh"
 if [[ -f "${SOLUTION_SCRIPT}" ]]; then
-  log "Running solution test script: ${SOLUTION_SCRIPT}"
+  log "正在执行方案测试脚本：${SOLUTION_SCRIPT}"
   bash "${SOLUTION_SCRIPT}" 2>&1 | tee -a "${REPORT_DIR}/${SOLUTION}-test.log"
-  log "Test script finished. Log: ${REPORT_DIR}/${SOLUTION}-test.log"
+  log "测试脚本执行完毕。日志：${REPORT_DIR}/${SOLUTION}-test.log"
 else
-  log "No solution-specific script found at ${SOLUTION_SCRIPT}."
-  log "Create ${SOLUTION_SCRIPT} to automate testing for '${SOLUTION}'."
+  log "未找到方案专属脚本：${SOLUTION_SCRIPT}"
+  log "可创建 ${SOLUTION_SCRIPT} 以自动化测试「${SOLUTION}」方案。"
 fi
 
-log "Evaluation workflow complete."
-log "Next step: fill in the analysis report at ${REPORT_FILE}"
+log "评估流程完成。"
+log "下一步：补充分析报告 ${REPORT_FILE}"
+
