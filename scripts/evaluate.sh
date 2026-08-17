@@ -49,8 +49,8 @@ if [[ ! -f "${REPORT_FILE}" ]]; then
   mkdir -p "${REPORT_DIR}"
   cp "${TEMPLATE}" "${REPORT_FILE}"
   # Replace placeholder {方案名称} with the actual solution name
-  sed -i "s/{方案名称}/${SOLUTION}/g" "${REPORT_FILE}"
-  sed -i "s/{YYYY-MM-DD}/$(date '+%Y-%m-%d')/g" "${REPORT_FILE}"
+  perl -i -pe "s/\{方案名称\}/${SOLUTION}/g" "${REPORT_FILE}"
+  perl -i -pe "s/\{YYYY-MM-DD\}/$(date '+%Y-%m-%d')/g" "${REPORT_FILE}"
   log "Report scaffold created: ${REPORT_FILE}"
 else
   log "Report already exists, skipping scaffold: ${REPORT_FILE}"
