@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent 调研初始化报告（高 Star Skills）</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #131a2a;
+      --text: #e8ecf5;
+      --muted: #9aa6bf;
+      --line: #27324a;
+      --accent: #6ea8fe;
+      --ok: #60d394;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 48px; }
+    h1, h2 { margin: 0 0 12px; }
+    h1 { font-size: 30px; }
+    h2 { margin-top: 28px; font-size: 22px; }
+    p, li { color: var(--muted); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 14px;
+    }
+    .meta { font-size: 14px; color: var(--muted); }
+    .tag {
+      display: inline-block;
+      margin-right: 8px;
+      margin-top: 6px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--accent);
+      font-size: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px;
+      vertical-align: top;
+    }
+    th { text-align: left; background: rgba(110, 168, 254, 0.08); }
+    a { color: var(--accent); text-decoration: none; }
+    .ok { color: var(--ok); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Agent 调研初始化报告（高 Star Skills）</h1>
+    <p class="meta">仓库：OPPO-Shaun/better-explore ｜ 生成时间：2026-08-18</p>
+
+    <div class="card">
+      <h2>1. 初始化目标</h2>
+      <p>本次初始化聚焦让 Agent 更适合“开源方案调研”场景：快速收集候选、结构化评估、沉淀可复用调研资产，并稳定输出报告（HTML 优先）。</p>
+      <span class="tag">候选发现自动化</span>
+      <span class="tag">评估维度标准化</span>
+      <span class="tag">报告模板统一</span>
+      <span class="tag">可复用技能库</span>
+    </div>
+
+    <div class="card">
+      <h2>2. 高 Star 优质 Skills / 资源清单</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>仓库</th>
+            <th>Stars</th>
+            <th>定位</th>
+            <th>对本项目价值</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="https://github.com/github/awesome-copilot" target="_blank" rel="noreferrer">github/awesome-copilot</a></td>
+            <td>37,948</td>
+            <td>Copilot 社区技能、Agent、配置集合</td>
+            <td>可直接复用调研类 instruction/skills 结构，降低初始化成本</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/Shubhamsaboo/awesome-llm-apps" target="_blank" rel="noreferrer">Shubhamsaboo/awesome-llm-apps</a></td>
+            <td>132,985</td>
+            <td>大规模 Agent / Skill / RAG 案例库</td>
+            <td>用于构建候选方案池和调研 benchmark 列表</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/e2b-dev/awesome-ai-agents" target="_blank" rel="noreferrer">e2b-dev/awesome-ai-agents</a></td>
+            <td>29,497</td>
+            <td>自治 Agent 生态索引</td>
+            <td>便于按应用类型拆分调研主题（编程、运维、数据等）</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/feiskyer/claude-code-settings" target="_blank" rel="noreferrer">feiskyer/claude-code-settings</a></td>
+            <td>1,632</td>
+            <td>技能、子 Agent、配置模板</td>
+            <td>可参考其目录组织方式建设本仓库技能目录</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/obra/superpowers" target="_blank" rel="noreferrer">obra/superpowers</a></td>
+            <td>273,226</td>
+            <td>Agentic Skills Framework</td>
+            <td>可借鉴任务拆解与技能编排模式，提升复杂调研任务执行率</td>
+          </tr>
+          <tr>
+            <td><a href="https://github.com/wanshuiyin/Auto-claude-code-research-in-sleep" target="_blank" rel="noreferrer">wanshuiyin/Auto-claude-code-research-in-sleep</a></td>
+            <td>14,817</td>
+            <td>自动化研究 workflow（Markdown skills）</td>
+            <td>适配“连续调研 + 周期复盘 + 结果汇总”工作流</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="meta">注：Stars 为调研时快照值，后续建议由脚本定期刷新。</p>
+    </div>
+
+    <div class="card">
+      <h2>3. Agent 初始化建议（面向 better-explore）</h2>
+      <ol>
+        <li><span class="ok">定义调研角色协议</span>：统一输入（主题/约束/评估维度）与输出（摘要、对比表、结论）。</li>
+        <li><span class="ok">建立技能分层</span>：候选发现、证据采集、对比评估、报告生成四层技能，避免单一大 Prompt。</li>
+        <li><span class="ok">标准化评估字段</span>：复用现有 <code>evaluation-template.md</code> 字段，补充“社区活跃度、维护风险、可迁移成本”。</li>
+        <li><span class="ok">HTML 报告优先</span>：将调研结果落盘为 HTML，便于团队阅读、分享与二次汇总。</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>4. 建议落地路径</h2>
+      <ul>
+        <li>阶段 1：先沉淀 1 份技能地图（本报告）+ 1 个标准化初始化清单。</li>
+        <li>阶段 2：将高 Star 资源按主题入库（UI 自动化 / RAG / 多 Agent 协同）。</li>
+        <li>阶段 3：在 <code>scripts/</code> 下加入“候选抓取 + HTML 报告生成”自动流程。</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
