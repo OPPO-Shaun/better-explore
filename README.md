@@ -54,6 +54,13 @@ bash scripts/evaluate.sh <solution-name>
 
 ---
 
+## Agent 初始化调研（HTML 报告）
+
+- 报告路径：[`docs/reports/agent-research/high-star-skills.html`](docs/reports/agent-research/high-star-skills.html)
+- 内容说明：聚焦调研型 Agent 的初始化目标、可复用高 Star skill 资源与落地建议
+
+---
+
 ## 贡献指南
 
 1. 在 `docs/reports/<topic>/` 下新建报告，命名格式：`<solution-name>.md`
