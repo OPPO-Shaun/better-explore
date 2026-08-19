@@ -54,6 +54,12 @@ bash scripts/evaluate.sh <solution-name>
 
 ---
 
+## 已产出报告
+
+- [DeepSeek Harness Git 提交历史与协作方式调研](docs/reports/agent/deepseek-harness-history.html)
+
+---
+
 ## 贡献指南
 
 1. 在 `docs/reports/<topic>/` 下新建报告，命名格式：`<solution-name>.md`
