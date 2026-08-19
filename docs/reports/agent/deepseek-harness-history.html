@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepSeek Harness Git 提交历史与协作方式调研</title>
+  <style>
+    :root { --ink:#172033; --muted:#5c687d; --line:#dfe5ee; --brand:#2563eb; --soft:#eff6ff; --warn:#fff7ed; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:#f7f9fc; font:16px/1.7 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; }
+    main { max-width:1100px; margin:0 auto; padding:40px 24px 72px; }
+    header { padding:34px; color:white; background:linear-gradient(135deg,#1d4ed8,#0f172a); border-radius:18px; box-shadow:0 12px 30px #17203322; }
+    h1 { margin:0 0 8px; font-size:clamp(28px,4vw,44px); line-height:1.2; }
+    h2 { margin-top:42px; padding-bottom:8px; border-bottom:2px solid var(--line); }
+    h3 { margin-top:28px; }
+    .meta { color:#dbeafe; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin:24px 0; }
+    .card, table, .callout { background:white; border:1px solid var(--line); border-radius:12px; }
+    .card { padding:18px; }
+    .card strong { display:block; font-size:24px; color:var(--brand); }
+    .callout { margin:20px 0; padding:18px 20px; background:var(--soft); border-left:5px solid var(--brand); }
+    .warning { background:var(--warn); border-left-color:#ea580c; }
+    table { width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; margin:16px 0 24px; }
+    th, td { padding:11px 13px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); }
+    th { background:#f1f5f9; }
+    tr:last-child td { border-bottom:0; }
+    code { padding:2px 5px; border-radius:4px; background:#eef2f7; }
+    li { margin:6px 0; }
+    a { color:var(--brand); }
+    .timeline { border-left:3px solid #bfdbfe; padding-left:22px; }
+    .phase { position:relative; margin:24px 0 30px; }
+    .phase::before { content:""; position:absolute; width:12px; height:12px; left:-30px; top:8px; border-radius:50%; background:var(--brand); }
+    footer { margin-top:48px; color:var(--muted); font-size:14px; }
+    @media print { body { background:white; } header { color:var(--ink); background:white; border:1px solid var(--line); box-shadow:none; } a { color:inherit; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>DeepSeek Harness</h1>
+    <div class="meta">Git 提交历史、团队协作方式与开发效率调研</div>
+    <p class="meta">调研范围：公开仓库提交、分支命名、PR 合并记录与 Release；截至 2026-08-17。</p>
+  </header>
+
+  <div class="grid">
+    <div class="card"><strong>约 68 天</strong>公开历史跨度<br>2026-06-10 至 2026-08-17</div>
+    <div class="card"><strong>远超 4 人</strong>可见作者和 Release 贡献者不止四名</div>
+    <div class="card"><strong>rc.7</strong>2026-08-17 发布开发者预览版</div>
+    <div class="card"><strong>高并行</strong>worktree、Codex、RFC、自动化门禁并行推进</div>
+  </div>
+
+  <div class="callout warning">
+    <strong>核心判断：</strong>“4 个人、两个月写完”更可能指核心架构团队规模，而不是整个公开仓库的全部贡献人数。公开代码还包含文档、测试、跨平台适配、Web/TUI、发布和社区贡献。
+  </div>
+
+  <h2>一、项目与研究方法</h2>
+  <p>DeepSeek Harness（<code>dsh</code>）是 DeepSeek AI 开源的 Agent harness，采用 Cordis 驱动的“一切皆插件”架构。本文不把提交数量直接当作产出，而是结合提交主题、时间分布、分支名称和 Release 内容，推断技术演进与协作流程。</p>
+  <p><strong>重要限制：</strong>Git 历史会受到 merge commit、主干同步、机器人提交、作者/committer 不同和内部开源前积累影响；贡献量只能作相对判断，不能等同于工时或业务价值。</p>
+
+  <h2>二、开发过程时间线</h2>
+  <div class="timeline">
+    <section class="phase">
+      <h3>阶段 1：架构奠基（06-10 至 06-11）</h3>
+      <p>初始化仓库、MVP 需求和微内核架构；建立 monorepo、TypeScript project references、Vitest、CI、严格类型、覆盖率与文档；引入 Cordis、抽象服务接口、Agent Loop 和 echo-agent。</p>
+      <p><strong>特征：</strong>先定插件边界、服务接口和质量门禁，再写具体产品能力。</p>
+    </section>
+    <section class="phase">
+      <h3>阶段 2：最小可运行 Agent（06-13 至 06-14）</h3>
+      <p>加入 Bash、DeepSeek/pi-ai 模型适配、coding-agent 示例、工具参数校验、事件契约断言、Session log freeze、属性测试、结构化错误和文档同步检查；同时用 RFC 001、005、006、008、009-012 固化设计。</p>
+    </section>
+    <section class="phase">
+      <h3>阶段 3：能力扩张与架构验证（06-15 至 06-30）</h3>
+      <p>扩展 ACP、Code Mode、工具执行流水线、文件系统、进程、沙箱、PTY、持久化、配置和 Web 基础设施。任务通过 <code>feat/</code>、<code>fix/</code>、<code>worktree/</code>、<code>codex/</code> 等小分支拆分。</p>
+    </section>
+    <section class="phase">
+      <h3>阶段 4：从框架到完整产品（07-01 至 07-18）</h3>
+      <p>集中建设 Web/TUI、多会话、会话恢复、文件编辑、LSP、子 Agent、Job、MCP/ACP、多模态、Web API、Session fork、目标管理和工作区上下文；底层 Agent inbox、事件、scope 和 Host/Client 边界仍同步演进。</p>
+    </section>
+    <section class="phase">
+      <h3>阶段 5：工程硬化（07-18 至 08-10）</h3>
+      <p>大量提交转向 Snapshot、E2E、Windows/macOS/Linux 兼容性、PTY、Web 细节、类型、构建、依赖、CI 和恢复边界问题，形成多条子系统并行工作流。</p>
+    </section>
+    <section class="phase">
+      <h3>阶段 6：公开发布前产品化（08-10 至 08-17）</h3>
+      <p>整理中英文 README、onboarding、安装升级、API key、Web 体验和 Windows CI；补齐图片附件、Job Panel、插件设置卡片、Safari、node-pty 和历史消息问题，发布 <code>dsh-v0.1.0-rc.7</code>。</p>
+    </section>
+  </div>
+
+  <h2>三、团队协作方式</h2>
+  <table>
+    <thead><tr><th>机制</th><th>从历史看到的证据</th><th>带来的效果</th></tr></thead>
+    <tbody>
+      <tr><td>主干持续集成</td><td>频繁出现 PR merge、同步 <code>origin/master</code>、冲突解决</td><td>减少长期分叉，快速汇聚并行成果</td></tr>
+      <tr><td>Worktree 并行</td><td>大量 <code>worktree/*</code> 分支，配合 <code>codex/*</code>、<code>xtr/*</code></td><td>不同开发者或 Agent 拥有隔离工作区，降低互相阻塞</td></tr>
+      <tr><td>RFC / ADR 驱动</td><td>RFC 001、005、006、008、009-012 与架构决策文档</td><td>先统一设计边界，再拆分实现，降低并发冲突</td></tr>
+      <tr><td>Review 驱动迭代</td><td>提交信息反复出现 Codex review、review findings、review gaps</td><td>把审查前置，快速修正设计和边界问题</td></tr>
+      <tr><td>自动化质量门禁</td><td>类型、覆盖率、属性测试、Snapshot、E2E、文档和包校验</td><td>用机器替代重复人工验证，支持更高提交频率</td></tr>
+      <tr><td>文档即工程资产</td><td>架构文档、Agent Notes、双语 README、doc-sync 检查</td><td>让多人和自动化 Agent 共享明确的上下文</td></tr>
+    </tbody>
+  </table>
+
+  <h2>四、主要贡献角色（定性分析）</h2>
+  <table>
+    <thead><tr><th>账号</th><th>从提交历史观察到的主要领域</th><th>推测角色</th></tr></thead>
+    <tbody>
+      <tr><td><code>tianyicui</code></td><td>仓库初始化、Cordis、Agent Loop、服务接口、LLM/Bash、RFC、测试和 CI</td><td>早期架构与 Runtime 核心</td></tr>
+      <tr><td><code>LegGasai</code></td><td>Agent、Web、工具、Bash、会话、多模态和发布前修复</td><td>核心功能扩展与产品化</td></tr>
+      <tr><td><code>Chinesezjc</code></td><td>Python SDK、Code Mode、Schema、类型生成、性能和跨平台</td><td>语言工具链与工程能力</td></tr>
+      <tr><td><code>turtle1999</code></td><td>文档、安装升级、CI、构建发布、门禁和开发流程</td><td>工程化与发布治理</td></tr>
+      <tr><td><code>kermanx</code></td><td>Agent 生命周期、Session、Goal、Workspace Context、PTY 和持久化</td><td>Runtime、会话与终端基础设施</td></tr>
+      <tr><td>其他贡献者</td><td><code>hypatiamay</code>、<code>imccyu</code>、<code>ZiyaZhang</code>、<code>Kingwl</code> 等参与专项功能、文档、Web、测试和兼容性</td><td>专项开发者与社区贡献</td></tr>
+    </tbody>
+  </table>
+  <p>不能依据 commit 数量精确排名：merge commit 和主干同步会放大数量，单个高质量架构提交也可能比大量文档修订更重要；还需要 PR 文件变更、review、首次/最后提交时间等数据才能做更可靠的归因。</p>
+
+  <h2>五、效率来源与合理解释</h2>
+  <ol>
+    <li><strong>公开仓库不一定等于项目起点：</strong>首日就有成熟架构、MVP、RFC、ADR 和质量门禁，说明可能存在开源前的内部设计或代码积累。</li>
+    <li><strong>模块边界适合并行：</strong>LLM、Tool、Session、Sandbox、Shell、UI 和 API 都能按插件或 seam 拆开。</li>
+    <li><strong>高并发工作流：</strong>worktree、小 PR 和持续主干同步降低等待时间。</li>
+    <li><strong>自动化验证：</strong>类型、测试、Snapshot、文档和跨平台门禁让高频合并仍可控。</li>
+    <li><strong>AI 辅助可能参与：</strong>Codex、Agent、worktree 等痕迹明显，但 Git 历史无法准确区分人和 AI 的代码贡献比例。</li>
+  </ol>
+
+  <h2>六、总体判断</h2>
+  <div class="callout">
+    <p>更准确的描述是：一个已有较强内部积累的核心团队，通过插件化架构、RFC/ADR、worktree 并行、自动化质量门禁、持续主干集成和 AI 辅助 Review，在约两个月内完成了公开化、工程化和产品化。</p>
+    <p>值得借鉴的不是单纯的“提交速度”，而是：</p>
+    <p><strong>前置架构设计 + 清晰插件边界 + 小步 PR + 并行工作区 + 自动化验证 + 持续集成 + AI 辅助。</strong></p>
+  </div>
+
+  <h2>七、参考资料</h2>
+  <ul>
+    <li><a href="https://github.com/deepseek-ai/deepseek-harness" rel="noopener">项目主页</a></li>
+    <li><a href="https://github.com/deepseek-ai/deepseek-harness/commits/master" rel="noopener">完整提交历史</a></li>
+    <li><a href="https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.1.0-rc.7" rel="noopener">v0.1.0-rc.7 Release</a></li>
+    <li><a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.zh.md" rel="noopener">中文架构文档</a></li>
+    <li><a href="https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/development.md" rel="noopener">开发指南</a></li>
+  </ul>
+
+  <footer>生成于 2026-08-19；本文为基于公开 Git 数据的定性分析，不代表 DeepSeek AI 官方披露。</footer>
+</main>
+</body>
+</html>
